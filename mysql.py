@@ -57,7 +57,7 @@ def delete_employee_record(id):
     cur = mysql.connection.cursor()
     deleteQuery = """DELETE FROM employee_dashboard.employees WHERE id = %s"""
     record = (id)
-    response = cur.execute(deleteQuery, record)
+    response = cur.execute(deleteQuery, [record])
     mysql.connection.commit()
 
     if response > 0:
