@@ -18,6 +18,7 @@ class List extends Component{
         this.onNameChange = this.onNameChange.bind(this)
         this.onDeptChange = this.onDeptChange.bind(this)
         this.onSalaryChange = this.onSalaryChange.bind(this)
+        // this.onEdit = this.onEdit.bind(this);
         // this.onChange = this.onChange.bind(this)
     }
 
@@ -74,21 +75,28 @@ class List extends Component{
         // this.getAll()
     }
 
-    // onUpdate = e => {
-    //     e.preventDefault()
-    //     updateEmployee(this.state.id, this.state.name, this.state.department, this.state.salary).then(() => {
-    //         this.getAll()
-    //     })
-    // }
+    onUpdate = e => {
+        e.preventDefault()
+        updateEmployee(this.state.id, this.state.name, this.state.department, this.state.salary).then(() => {
+            this.getAll()
+        })
+    }
 
     onEdit = (id, name, department, salary, event) => {
         event.preventDefault()
-        this.setState({  
+        this.setState({ 
+            id: id, 
             name: name,
             department: department,
             salary: salary,
-        });
-        updateEmployee(id, name, department, salary)   
+        })
+            // updateEmployee(this.state.id, this.state.name, this.state.department, this.state.salary).then(() => {
+            //     this.getAll()
+            // })
+        console.log(id);
+       
+        // this.onUpdate(id, name, department, salary)  
+       
     }
 
     onDelete = (id, event) => {
@@ -133,7 +141,7 @@ class List extends Component{
                                     onChange={this.onDeptChange}
                                     />
                             </div>
-                            <div className="col-md-4">
+                            <div className="col-md-2">
                                 <input 
                                     placeholder="salary"
                                     type="text" 
@@ -142,6 +150,12 @@ class List extends Component{
                                     value={this.state.salary}
                                     onChange={this.onSalaryChange}
                                     />
+                            </div>
+                            <div className="col-md-2">
+                                <button className="btn btn-primary"
+                                    onClick={this.onUpdate.bind(this)}>
+                                    Update
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -160,7 +174,7 @@ class List extends Component{
                                 <td className="text-left">{item[3]}</td>
                                 <td className="text-right">
                                 <button className="btn btn-info mr-1"
-                                    disabled={this.state.editDisabled}
+                                    // disabled={this.state.editDisabled}
                                     onClick={this.onEdit.bind(this, item[0], item[1], item[2], item[3])}
                                     >
                                     Edit
@@ -182,11 +196,5 @@ class List extends Component{
         )
     }
 }
-
-// List.propTypes = {
-//     name: PropTypes.string.isRequired,
-//     department: PropTypes.string.isRequired,
-//     salary: PropTypes.number.isRequired
-// }
 
 export default List

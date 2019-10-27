@@ -44,13 +44,13 @@ export const deleteEmployee = id =>{
 }
 
 export const updateEmployee = (id, name, department, salary) => {
-    return axios
-        .put(
-            `/api/employee/${id}`, {
+    console.log(id);
+    return axios.put(`/api/employee/${id}`, {
                 name: name, department: department, salary: salary
             },{
                 headers: {"Content-type": "application/json"}
-            })
+            }
+            )
     .then((res) => {
         console.log(res)
     })
