@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { listEmployee, addEmployee, deleteEmployee, updateEmployee} from './ListFunctions';
+import { listEmployee, addEmployee, deleteEmployee, updateEmployee, viewEmployee} from './ListFunctions';
 import PropTypes from 'prop-types';
 
 
@@ -12,7 +12,8 @@ class List extends Component{
             department: '',
             salary: '',
             editDisabled: false,
-            items: []
+            items: [],
+            show: false
         }
 
         this.onNameChange = this.onNameChange.bind(this)
@@ -62,14 +63,12 @@ class List extends Component{
 
     onSubmit = event => {
         // event.preventDefault()
-        
         addEmployee(this.state.name, this.state.department, this.state.salary).then(data => {
 
             this.setState({
                 name: this.state.name,
                 department: this.state.department,
                 salary: this.state.salary,
-                // items: [...data],
                 editDisabled: ''})     
         })
         // this.getAll()
@@ -90,18 +89,12 @@ class List extends Component{
             department: department,
             salary: salary,
         })
-            // updateEmployee(this.state.id, this.state.name, this.state.department, this.state.salary).then(() => {
-            //     this.getAll()
-            // })
         console.log(id);
-       
-        // this.onUpdate(id, name, department, salary)  
        
     }
 
     onDelete = (id, event) => {
         event.preventDefault()
-        // console.log(id)
         deleteEmployee(id)
         
         var data = [...this.state.items]
@@ -113,6 +106,21 @@ class List extends Component{
             return true
         })
         this.setState({items: [...data]})
+    }
+
+    onView = (id, event) => {
+        event.preventDefault()
+        viewEmployee(id);
+        var data = [...this.state.items]
+        data.filter((item, index) => {
+            if(item[0] === id){
+                alert(item[0]+" "+item[1]+" "+ item[2]+" "+item[3])
+            }
+            return true
+        })
+        // alert(id );
+        
+
     }
 
     render(){
@@ -173,6 +181,18 @@ class List extends Component{
                                 <td className="text-left">{item[2]}</td>
                                 <td className="text-left">{item[3]}</td>
                                 <td className="text-right">
+                                <button className="btn btn-info mr-1"
+                                    disabled={this.state.editDisabled}
+                                    onClick={this.onView.bind(this,item[0])}
+                                    >
+                                    View
+                                </button>
+                                {/* <Modal onClose={this.showModal} show={this.state.show}>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis
+                                    deserunt corrupti, ut fugit magni qui quasi nisi amet repellendus non
+                                    fuga omnis a sed impedit explicabo accusantium nihil doloremque
+                                    consequuntur.
+                                    </Modal> */}
                                 <button className="btn btn-info mr-1"
                                     // disabled={this.state.editDisabled}
                                     onClick={this.onEdit.bind(this, item[0], item[1], item[2], item[3])}

@@ -22,6 +22,17 @@ def get_all_employees():
     return jsonify(rv)
 
 
+@app.route('/api/employee/<id>', methods=['GET'])
+def view_employee(id):
+    cur = mysql.connection.cursor()
+    viewQuery = """SELECT * FROM employee_dashboard.employees where id = %s"""
+    record = (id)
+    cur.execute(viewQuery, [record])
+    rv = cur.fetchall()
+    mysql.connection.commit()
+    return jsonify(rv)
+
+
 @app.route('/api/employee', methods=['POST'])
 def add_employee():
     cur = mysql.connection.cursor()

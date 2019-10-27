@@ -55,3 +55,19 @@ export const updateEmployee = (id, name, department, salary) => {
         console.log(res)
     })
 }
+
+
+export const viewEmployee = (id) => {
+    return axios.get(`/api/employee/${id}`, {
+        headers: { "Content-type": "application/json"}
+    })
+    .then(res => {
+        var data = []
+        Object.keys(res.data).forEach((key) => {
+            var val = res.data[key]
+            data.push([val.id,val.name,val.department,val.salary])
+        })
+        console.log(data)
+        return data
+    })
+}
